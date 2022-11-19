@@ -39,7 +39,7 @@ public class UserActivity extends AppCompatActivity {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS).get().addOnCompleteListener(task ->{
-            loading(true);
+            loading(false);
             String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
             if(task.isSuccessful() && task.getResult() != null){
                 List<User> users = new ArrayList<>();
