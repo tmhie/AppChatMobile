@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.example.appchat.databinding.ActivityMainBinding;
-import com.example.appchat.models.User;
 import com.example.appchat.utilities.Constants;
 import com.example.appchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private void setListeners(){
         binding.imgageSignOut.setOnClickListener(v -> signOut());
         binding.fabNewChat.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), UserActivity.class)));
+                startActivity(new Intent(getApplicationContext(), UsersActivity.class)));
     }
 
     private void loadUserDetails(){
