@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppChat">
         <activity
-            android:name=".UserActivity"
+            android:name=".activities.UsersActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
