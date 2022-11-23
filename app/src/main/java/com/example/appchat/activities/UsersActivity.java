@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.appchat.adapters.UsersAdapter;
-import com.example.appchat.databinding.ActivityUserBinding;
+import com.example.appchat.databinding.ActivityUsersBinding;
 import com.example.appchat.models.User;
 import com.example.appchat.utilities.Constants;
 import com.example.appchat.utilities.PreferenceManager;
@@ -16,15 +16,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity {
 
-    private ActivityUserBinding binding;
+    private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityUserBinding.inflate(getLayoutInflater());
+        binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
@@ -39,7 +39,7 @@ public class UserActivity extends AppCompatActivity {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS).get().addOnCompleteListener(task ->{
-            loading(true);
+            loading(false);
             String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
             if(task.isSuccessful() && task.getResult() != null){
                 List<User> users = new ArrayList<>();
@@ -56,8 +56,8 @@ public class UserActivity extends AppCompatActivity {
                 }
                 if(users.size() > 0){
                     UsersAdapter usersAdapter = new UsersAdapter(users);
-                    binding.userRecyclerView.setAdapter(usersAdapter);
-                    binding.userRecyclerView.setVisibility(View.VISIBLE);
+                    binding.usersRecyclerView.setAdapter(usersAdapter);
+                    binding.usersRecyclerView.setVisibility(View.VISIBLE);
                 }else {
                     showErrorMessage();
                 }
