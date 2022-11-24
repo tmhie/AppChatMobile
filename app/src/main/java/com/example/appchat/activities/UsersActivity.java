@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.appchat.adapters.UsersAdapter;
+import com.example.appchat.adapters.UserAdapter;
 import com.example.appchat.databinding.ActivityUsersBinding;
 import com.example.appchat.models.User;
 import com.example.appchat.utilities.Constants;
@@ -28,25 +28,25 @@ public class UsersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
-        getUsers();
+        getUser();
     }
 
-    private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> onBackPressed());
+    private void setListeners(){
+        binding.imageBack.setOnClickListener(v->onBackPressed());
     }
 
-    private void getUsers(){
+    private void getUser(){
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .get()
-                .addOnCompleteListener(task -> {
+                .addOnCompleteListener(task->{
                     loading(false);
                     String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
-                    if(task.isSuccessful() && task.getResult() != null){
+                    if (task.isSuccessful() && task.getResult() != null){
                         List<User> users = new ArrayList<>();
-                        for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                            if(currentUserId.equals(queryDocumentSnapshot.getId())) {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                            if (currentUserId.equals(queryDocumentSnapshot.getId())){
                                 continue;
                             }
                             User user = new User();
@@ -56,28 +56,28 @@ public class UsersActivity extends AppCompatActivity {
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             users.add(user);
                         }
-                        if(users.size() > 0){
-                            UsersAdapter usersAdapter = new UsersAdapter(users);
-                            binding.usersRecyclerView.setAdapter(usersAdapter);
+                        if (users.size() > 0){
+                            UserAdapter userAdapter = new UserAdapter(users);
+                            binding.usersRecyclerView.setAdapter(userAdapter);
                             binding.usersRecyclerView.setVisibility(View.VISIBLE);
                         }else {
                             showErrorMessage();
                         }
-                    }else{
+                    }else {
                         showErrorMessage();
                     }
                 });
     }
 
     private void showErrorMessage(){
-        binding.textErrorMessage.setText(String.format("%s", "No user available"));
+        binding.textErrorMessage.setText(String.format("%s","No user available"));
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 
     private void loading(Boolean isLoading){
-        if(isLoading){
+        if (isLoading){
             binding.progressBar.setVisibility(View.VISIBLE);
-        }else{
+        }else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }

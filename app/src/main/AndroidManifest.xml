@@ -16,11 +16,7 @@
         android:theme="@style/Theme.AppChat">
         <activity
             android:name=".activities.UsersActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activities.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
