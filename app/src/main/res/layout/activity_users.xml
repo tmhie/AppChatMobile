@@ -47,6 +47,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:padding="@dimen/_20sdp"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
@@ -54,7 +55,7 @@
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="@dimen/_25sdp"
-            android:layout_height="29dp"
+            android:layout_height="@dimen/_25sdp"
             android:layout_gravity="center" />
 
         <TextView
@@ -66,8 +67,8 @@
             android:layout_marginEnd="@dimen/_24sdp"
             android:gravity="center"
             android:textColor="@color/error"
-            android:textSize="@dimen/_12sdp"
-            android:visibility="gone"/>
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone" />
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
