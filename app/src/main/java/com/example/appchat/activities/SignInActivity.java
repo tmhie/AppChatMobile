@@ -2,6 +2,7 @@ package com.example.appchat.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -34,7 +35,9 @@ public class SignInActivity extends AppCompatActivity {
         binding.textCreateNewAccount.setOnClickListener(v->
                 startActivity(new Intent(getApplicationContext(),SignUpActivity.class)));
         binding.buttonSignIn.setOnClickListener(v->{
+            Log.d(SignInActivity.class.getName(), "Step 1");
             if (isValidSignInDetails()){
+                Log.d(SignInActivity.class.getName(), "Step 2");
                 signIn();
             }
         });
