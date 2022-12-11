@@ -76,9 +76,9 @@ public class ChatActivity extends AppCompatActivity {
             updateConversion(binding.inputMessage.getText().toString());
         }else {
             HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-            conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_SENDER_NAME));
-            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_SENDER_IMAGE));
+            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
@@ -128,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
         }
         binding.progressBar.setVisibility(View.GONE);
         if (conversionId == null){
-            chekForConversion();
+            checkForConversion();
         }
     };
 
@@ -166,7 +166,7 @@ public class ChatActivity extends AppCompatActivity {
         );
     }
 
-    private void chekForConversion(){
+    private void checkForConversion(){
         if (chatMessages.size() != 0){
             checkForConversionRemotely(
                     preferenceManager.getString(Constants.KEY_USER_ID),

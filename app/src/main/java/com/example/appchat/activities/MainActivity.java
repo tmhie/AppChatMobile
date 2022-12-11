@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ConversionListene
 
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
-    private List<ChatMessage> convertsations;
+    private List<ChatMessage> conversations;
     private RecentConversationsAdapter conversationsAdapter;
     private FirebaseFirestore database;
 
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity implements ConversionListene
     }
 
     private void init(){
-        convertsations = new ArrayList<>();
-        conversationsAdapter = new RecentConversationsAdapter(convertsations, this);
-        binding.conversationRecyclerView.setAdapter(conversationsAdapter);
+        conversations = new ArrayList<>();
+        conversationsAdapter = new RecentConversationsAdapter(conversations, this);
+        binding.conversationsRecyclerView.setAdapter(conversationsAdapter);
         database = FirebaseFirestore.getInstance();
     }
 
@@ -110,22 +110,23 @@ public class MainActivity extends AppCompatActivity implements ConversionListene
                     }
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    conversations.add(chatMessage);
                 }else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
-                    for (int i = 0; i < convertsations.size(); i++){
+                    for (int i = 0; i < conversations.size(); i++){
                         String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                         String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                        if (convertsations.get(i).senderId.equals(senderId) && convertsations.get(i).receiverId.equals(receiverId)){
-                            convertsations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                            convertsations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                        if (conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)){
+                            conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                            conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                             break;
                         }
                     }
                 }
             }
-            Collections.sort(convertsations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
             conversationsAdapter.notifyDataSetChanged();
-            binding.conversationRecyclerView.smoothScrollToPosition(0);
-            binding.conversationRecyclerView.setVisibility(View.VISIBLE);
+            binding.conversationsRecyclerView.smoothScrollToPosition(0);
+            binding.conversationsRecyclerView.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.GONE);
         }
     };
@@ -162,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements ConversionListene
     }
 
     @Override
-    public void onConversionClick(User user) {
-        Intent intent = new Intent(getApplicationContext(), ChatMessage.class);
-        intent.putExtra(Constants.KEY_USER_ID, user);
+    public void onConversionClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
     }
 }
