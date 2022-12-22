@@ -98,18 +98,18 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.senderId = senderId;
                     chatMessage.receiverId = receiverId;
-
                     if (preferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)){
                         chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE);
                         chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
                         chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     }else {
-                        chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE);
-                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
-                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                        chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE);
+                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
+                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     }
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    convertsations.add(chatMessage);
                 }else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
                     for (int i = 0; i < convertsations.size(); i++){
                         String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
@@ -135,6 +135,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     }
 
     private void updateToken(String token){
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN,token);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
                 preferenceManager.getString(Constants.KEY_USER_ID)
@@ -163,8 +164,8 @@ public class MainActivity extends BaseActivity implements ConversionListener {
 
     @Override
     public void onConversionClick(User user) {
-        Intent intent = new Intent(getApplicationContext(), ChatMessage.class);
-        intent.putExtra(Constants.KEY_USER_ID, user);
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
     }
 }
